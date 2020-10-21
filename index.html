@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Happy Birthday, Hannah!</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+
+<script>
+
+    function preload() {
+        hannah = loadImage("final_images/hannah_face.png")
+        serena = loadImage("final_images/serena_face.png")
+        rik = loadImage("final_images/rik_face.png")
+
+
+    }
+
+    var button;
+
+	function setup(){
+		createCanvas(window.innerWidth, window.innerHeight);
+        background(32);
+
+        textSize(172)
+        textAlign(CENTER);
+        fill("#353535")
+        //textStyle(ITALIC);
+        textFont("Italiana");
+        text("Happy Birthday, Hannah!", width/2, height/4)
+        text("Happy Birthday, Hannah!", width/2, height/2)
+        text("Happy Birthday, Hannah!", width/2, 3*height/4)
+        
+
+        imageMode(CENTER);
+        image(hannah, width/2, height/2);
+        image(rik, width/4, height/2, rik.width/4, rik.height/4);
+        image(serena, 3*width/4, height/2, serena.width/2, serena.height/2);
+
+        
+
+        button = createButton("Enter");
+        button.position(width/2, height - 100)
+	}
+			
+	function draw(){
+		fill(255);
+        image(hannah, mouseX, mouseY, hannah.width/20, hannah.height/20);
+	}
+</script>
+
+<style> body {padding: 0; margin: 0; } </style>
+</head>
+<body>
+
+</body>
+</html>
