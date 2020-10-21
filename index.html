@@ -2,6 +2,7 @@
 <head>
 <title>Happy Birthday, Hannah!</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
 
@@ -12,14 +13,23 @@
         serena = loadImage("final_images/serena_face.png")
         rik = loadImage("final_images/rik_face.png")
 
+        hbdSong = createAudio("sound/happy_birthday.m4a")
+
 
     }
 
     var button;
+    var looping = false;
 
 	function setup(){
 		createCanvas(window.innerWidth, window.innerHeight);
         background(32);
+
+        hbdSong.loop();
+
+
+
+        
 
         textSize(172)
         textAlign(CENTER);
@@ -40,12 +50,38 @@
 
         button = createButton("Enter");
         button.position(width/2, height - 100)
+        button.mousePressed(playHBD)
 	}
 			
 	function draw(){
 		fill(255);
         image(hannah, mouseX, mouseY, hannah.width/20, hannah.height/20);
+
+
 	}
+
+    function playHBD() {
+        if (!looping) {
+            hbdSong.loop();
+            looping = true;
+        }
+
+        else {
+            hbdSong.stop();
+            looping = false;
+        }
+
+    }
+
+    // function mousePressed() {
+    //     if (hbdSong.isPlaying()) {
+    //         hbdSong.stop();
+    //     }
+
+    //     else {
+    //         hbdSong.play();
+    //     }
+    // }
 </script>
 
 <style> body {padding: 0; margin: 0; } </style>
