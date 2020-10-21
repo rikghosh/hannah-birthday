@@ -12,24 +12,38 @@
         hannah = loadImage("final_images/hannah_face.png")
         serena = loadImage("final_images/serena_face.png")
         rik = loadImage("final_images/rik_face.png")
+        paris = loadImage("final_images/hannah_stick.png")
 
         hbdSong = createAudio("sound/happy_birthday.m4a")
+        parisAudio = loadSound("sound/paris_audio.m4a")
 
 
     }
 
     var button;
     var looping = false;
+    var vegetables = false;
+    var parisX = window.innerWidth/4;
+    var parisY = window.innerHeight;
+    var parisUp = true;
 
 	function setup(){
 		createCanvas(window.innerWidth, window.innerHeight);
-        background(32);
-
-        hbdSong.loop();
-
 
 
         
+
+        button = createButton("Happy Birthday");
+        button.position(width/2 - button.width/2, height - 100)
+
+        button.mousePressed(playHBD)
+	}
+			
+	function draw(){
+		fill(255);
+        
+
+        background(32);
 
         textSize(172)
         textAlign(CENTER);
@@ -39,23 +53,40 @@
         text("Happy Birthday, Hannah!", width/2, height/4)
         text("Happy Birthday, Hannah!", width/2, height/2)
         text("Happy Birthday, Hannah!", width/2, 3*height/4)
-        
+
 
         imageMode(CENTER);
-        image(hannah, width/2, height/2);
-        image(rik, width/4, height/2, rik.width/4, rik.height/4);
-        image(serena, 3*width/4, height/2, serena.width/2, serena.height/2);
 
-        
+        if (!vegetables) {
+            image(hannah, width/2, height/2);
+            image(rik, width/4, height/2, rik.width/4, rik.height/4);
+            image(serena, 3*width/4, height/2, serena.width/2, serena.height/2);
+        }
 
-        button = createButton("Enter");
-        button.position(width/2, height - 100)
-        button.mousePressed(playHBD)
-	}
-			
-	function draw(){
-		fill(255);
-        image(hannah, mouseX, mouseY, hannah.width/20, hannah.height/20);
+        image(hannah, mouseX, mouseY, hannah.width/10, hannah.height/10);
+
+        image(paris, parisX, parisY, paris.width/2, paris.height/2);
+
+        //parisX += 1;
+
+        if (parisUp) {
+            parisY -= 1;
+        } else {
+            parisY += 1;
+        }
+
+        if (parisY <= height - parisY/4 + 45) {
+            parisUp = false;
+        }
+
+        if (parisY == height && parisUp) {
+            parisAudio.play();
+        }
+
+        if (parisY >= 1.5*height) {
+            parisUp = true;
+            parisX = random(width);
+        }
 
 
 	}
@@ -84,7 +115,34 @@
     // }
 </script>
 
-<style> body {padding: 0; margin: 0; } </style>
+<style>
+    body {
+        padding: 0; margin: 0; 
+    } 
+    button {
+        background-color: #000000; /* Green */
+        border: none;
+        color: rgb(141, 141, 141);
+        padding: 15px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 2px;
+        text-transform: uppercase;
+        font-family: helvetica;
+
+    }       
+
+    button:focus {
+        outline: none;
+    }
+
+    button:hover {
+        background-color: rgb(43, 43, 43); 
+    }
+
+</style>
 </head>
 <body>
 
