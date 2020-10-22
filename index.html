@@ -9,87 +9,209 @@
 <script>
 
     function preload() {
-        hannah = loadImage("final_images/hannah_face.png")
-        serena = loadImage("final_images/serena_face.png")
-        rik = loadImage("final_images/rik_face.png")
-        paris = loadImage("final_images/hannah_stick.png")
+        hannah = loadImage("final_images/hannah_face.png");
+        serena = loadImage("final_images/serena_face.png");
+        rik = loadImage("final_images/rik_face.png");
 
-        hbdSong = createAudio("sound/happy_birthday.m4a")
-        parisAudio = loadSound("sound/paris_audio.m4a")
+        turnip = loadImage("final_images/hannah_turnip.png");
+        cilantro = loadImage("final_images/serena_cilantro.png");
+        potato = loadImage("final_images/rik_potato.png");
+
+        paris = loadImage("final_images/hannah_stick.png");
+        eiffelTower = loadImage("final_images/eiffel_tower.png");
+
+        hbdSong = createAudio("sound/happy_birthday.m4a");
+        parisAudio = loadSound("sound/paris_audio.m4a");
+        vegtopia = loadSound("sound/vegtopia.mp3");
 
 
     }
 
-    var button;
-    var looping = false;
+
+    var drawButton;
+    var drawing = false;
+    var drawBG = false;
+    var pen;
+
+    var coverCounter = 1000;
+
+    var vegButton;
     var vegetables = false;
+
+    var musicButton;
+    var looping = false;
+
+    var messageButton;
+    let hbdMessage = "Happy birthday to you, Mother Hammah Hermill-Ham. \n\nYou are now 25, only five years from 30. Time for a quarter-life crisis! Haha. We hope you enjoy vegTOPIA, a celebration of your 25 years on this earth. With how things are going, it looks like this might be our last. Haha. \n\nFrom, \nYour Fiends in Darkness. "
+    var hbdMessageY = - 1000;
+    
+
     var parisX = window.innerWidth/4;
-    var parisY = window.innerHeight;
+    var parisY = window.innerHeight*2;
     var parisUp = true;
+    var towerX = Math.random()*window.innerWidth;
+    var towerY = Math.random()*window.innerHeight;
+
+    
 
 	function setup(){
 		createCanvas(window.innerWidth, window.innerHeight);
 
-
+        drawButton = createButton("Draw");
+        drawButton.position(random(width), random(height));
+        drawButton.mousePressed(drawRules);
         
 
-        button = createButton("Happy Birthday");
-        button.position(width/2 - button.width/2, height - 100)
+        musicButton = createButton("Happy Birthday");
+        // musicButton.position(width/2 - musicButton.width/2, height - 100)
+        musicButton.position(random(width), random(height));
+        musicButton.mousePressed(playHBD)
 
-        button.mousePressed(playHBD)
+        vegButton = createButton("Vegetables?");
+        vegButton. position(random(width), random(height));
+        vegButton.mousePressed(vegTrigger);
+
+        messageButton = createButton("A Message");
+        messageButton.position(random(width), random(height));
+        messageButton.mousePressed(() => hbdMessageY = height + 40);
+
+
 	}
 			
 	function draw(){
-		fill(255);
+		
+        if (!drawing) {
+            fill(255);
+            background(32);
+            textSize(172)
+            textAlign(CENTER);
+            fill("#353535")
+            textStyle(ITALIC);
+            textFont("Futura");
+            text("Happy Birthday, Hannah!", width/2, height/4)
+            text("Happy Birthday, Hannah!", width/2, height/2)
+            text("Happy Birthday, Hannah!", width/2, 3*height/4)
+
+
+            imageMode(CENTER);
+
+            if (!vegetables) {
+                image(hannah, width/2, height/2);
+                image(rik, width/4, height/2, rik.width/4, rik.height/4);
+                image(serena, 3*width/4, height/2, serena.width/2, serena.height/2);
+
+                image(hannah, mouseX, mouseY, hannah.width/10, hannah.height/10);
+
+            } else {
+                image(turnip, width/2, height/2, turnip.width/2, turnip.height/2);
+                image(potato, width/4, height/2, potato.width/2, potato.height/2);
+                image(cilantro, 3*width/4+50, height/2, cilantro.width/2.2, cilantro.height/2.2);
+
+                image(turnip, mouseX, mouseY, turnip.width/12, turnip.height/12);
+            }
+
+            
+            
+            
+
+            image(paris, parisX, parisY, paris.width/2, paris.height/2);
+
+            if (parisY < height) {
+                image(eiffelTower, towerX, towerY);
+                if (towerX > parisX) {
+                    textSize(20)
+                    fill("#FFFFFF");
+                    text("Wrong direction, Hannah", towerX, towerY);
+                }
+            }
+
+
+            if (parisUp) {
+                parisY -= 1;
+            } else {
+                parisY += 1;
+            }
+
+            if (parisY <= height - parisY/4 + 60) {
+                parisUp = false;
+            }
+
+            if (parisY == height && parisUp) {
+                parisAudio.play();
+                towerX = random(width);
+                towerY = random(height);
+            }
+
+            if (parisY >= 1.5*height) {
+                parisUp = true;
+                parisX = random(width);
+            }
         
+            textSize(30);
+            textAlign(LEFT);
+            fill("#FFFFFF");
+            text(hbdMessage, width/8, hbdMessageY, width/4, height);
 
-        background(32);
-
-        textSize(172)
-        textAlign(CENTER);
-        fill("#353535")
-        //textStyle(ITALIC);
-        textFont("Italiana");
-        text("Happy Birthday, Hannah!", width/2, height/4)
-        text("Happy Birthday, Hannah!", width/2, height/2)
-        text("Happy Birthday, Hannah!", width/2, 3*height/4)
+            hbdMessageY -= 1;
 
 
-        imageMode(CENTER);
+            if (coverCounter < 180) {
+                fill("black");
+                rect(0, 0, width, height);
+                coverCounter += 1;
+            }
 
-        if (!vegetables) {
-            image(hannah, width/2, height/2);
-            image(rik, width/4, height/2, rik.width/4, rik.height/4);
-            image(serena, 3*width/4, height/2, serena.width/2, serena.height/2);
-        }
-
-        image(hannah, mouseX, mouseY, hannah.width/10, hannah.height/10);
-
-        image(paris, parisX, parisY, paris.width/2, paris.height/2);
-
-        //parisX += 1;
-
-        if (parisUp) {
-            parisY -= 1;
         } else {
-            parisY += 1;
-        }
-
-        if (parisY <= height - parisY/4 + 45) {
-            parisUp = false;
-        }
-
-        if (parisY == height && parisUp) {
-            parisAudio.play();
-        }
-
-        if (parisY >= 1.5*height) {
-            parisUp = true;
-            parisX = random(width);
+            if (drawBG) {
+                noStroke();
+                rect(0, 0, width, height);
+                drawBG = !drawBG;
+            }
+            image(pen, mouseX, mouseY, turnip.width/12, turnip.height/12);
         }
 
 
-	}
+
+
+
+    }
+    
+    function drawRules () {
+        drawing = !drawing;
+        drawBG = true;
+        //pen = vegetables ? random(turnip, cilantro, potato) : random(hannah, serena, rik);
+        var choice = round(random(2));
+        if (vegetables) {
+            if (choice == 2) {
+                pen = turnip;
+            } else if (choice == 1) {
+                pen = cilantro;
+            } else {
+                pen = potato;
+            }
+        } else {
+            if (choice == 2) {
+                pen = hannah;
+            } else if (choice == 1) {
+                pen = serena;
+            } else {
+                pen = rik;
+            }
+        }
+    }
+
+    function vegTrigger() {
+        vegetables = !vegetables;
+        if (vegetables) {
+            vegtopia.play();
+            coverCounter = 0;
+        }
+        else {
+            coverCounter = 180;
+        }
+        
+        
+    }
 
     function playHBD() {
         if (!looping) {
@@ -122,16 +244,16 @@
     button {
         background-color: #000000; /* Green */
         border: none;
-        color: rgb(141, 141, 141);
+        color: rgb(241, 241, 241);
         padding: 15px 30px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
-        border-radius: 2px;
+        border-radius: 3px;
         text-transform: uppercase;
         font-family: helvetica;
-
+        box-shadow: #00000050 0 0 20px;
     }       
 
     button:focus {
