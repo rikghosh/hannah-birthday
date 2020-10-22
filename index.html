@@ -5,6 +5,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lekton:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
 
 <script>
 
@@ -44,7 +49,9 @@
     var messageButton;
     let hbdMessage = "Happy birthday to you, Mother Hammah Hermill-Ham. \n\nYou are now 25, only five years from 30. Time for a quarter-life crisis! Haha. We hope you enjoy vegTOPIA, a celebration of your 25 years on this earth. With how things are going, it looks like this might be our last. Haha. \n\nFrom, \nYour Fiends in Darkness. "
     var hbdMessageY = - 1000;
-    
+
+    let horoscope = 'Are you feeling celebratory? Today, people will offer you well wishes, and they might mean it. Have your cake, and eat it too. This is a good time to connect with others, see who really matters, and manifest your myth. "Let the rain fall down and wake [your] dreams." Rise like the phoenix of an evolved scorpio—rise!';
+    var horoscopeX = window.innerWidth;
 
     var parisX = window.innerWidth/4;
     var parisY = window.innerHeight*2;
@@ -83,14 +90,16 @@
         if (!drawing) {
             fill(255);
             background(32);
-            textSize(172)
+            textSize(120)
             textAlign(CENTER);
             fill("#353535")
-            textStyle(ITALIC);
-            textFont("Futura");
-            text("Happy Birthday, Hannah!", width/2, height/4)
-            text("Happy Birthday, Hannah!", width/2, height/2)
-            text("Happy Birthday, Hannah!", width/2, 3*height/4)
+            //textStyle(ITALIC);
+            textFont("Major Mono Display");
+            //textFont("Pacifico")
+            text("Happy Birthday, Hannah!", width/2, height/4 - 100)
+            text("Happy Birthday, Hannah!", width/2, height/2 - 100)
+            text("Happy Birthday, Hannah!", width/2, 3*height/4 - 100)
+            text("Happy Birthday, Hannah!", width/2, height - 100)
 
 
             imageMode(CENTER);
@@ -153,6 +162,10 @@
             text(hbdMessage, width/8, hbdMessageY, width/4, height);
 
             hbdMessageY -= 1;
+
+            text(horoscope, horoscopeX, height/8)
+
+            horoscopeX -= 1;
 
 
             if (coverCounter < 180) {
@@ -252,7 +265,7 @@
         font-size: 16px;
         border-radius: 3px;
         text-transform: uppercase;
-        font-family: helvetica;
+        font-family: "Press Start 2P";
         box-shadow: #00000050 0 0 20px;
     }       
 
