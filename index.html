@@ -22,13 +22,19 @@
         paris = loadImage("final_images/hannah_stick.png");
         eiffelTower = loadImage("final_images/eiffel_tower.png");
 
-        hbdSong = createAudio("sound/happy_birthday.m4a");
+        hbdSong = loadSound("sound/happy_birthday.m4a");
         parisAudio = loadSound("sound/paris_audio.m4a");
         vegtopia = loadSound("sound/vegtopia.mp3");
+
+        debussy = createAudio("sound/debussy.mp3");
+        bach = createAudio("sound/bach.mp3");
+        reich = createAudio("sound/reich.mp3");
+
 
 
     }
 
+    var splash = true;
 
     var drawButton;
     var drawing = false;
@@ -40,23 +46,23 @@
     var vegButton;
     var vegetables = false;
 
-    var musicButton;
-    var looping = false;
+    var hbdButton;
+    var hbd = false;
 
     var messageButton;
     let hbdMessage = "happy birthday to you, Mother hammah hermill-ham. \n\nYou are now 25, only five years from 30. Time for a quarter-life crisis! Haha. We hope you enjoy vegTOPIA, a celebration of your 25 years on this earth. With how things are going, it looks like this might be our last. Haha. \n\nFrom, \nYour Fiends in Darkness. "
-    var hbdMessageY = - 1000;
+    var hbdMessageY = -10000;
 
+    var horoscopeButton;
     let horoscope = 'Are you feeling celebratory? Today, people will offer you well wishes, and they might mean it. Have your cake, and eat it too. This is a good time to connect with others, see who really matters, and manifest your myth. "Let the rain fall down and wake [your] dreams." Rise like the phoenix of an evolved scorpio—rise!';
+    var horoscopePlaying = false;
     var horoscopeX = window.innerWidth;
 
     var parisX = window.innerWidth/4;
-    var parisY = window.innerHeight*2;
+    var parisY = window.innerHeight*3;
     var parisUp = true;
     var towerX = Math.random()*window.innerWidth;
     var towerY = Math.random()*window.innerHeight;
-
-    var circles = [];
 
     
 
@@ -68,10 +74,9 @@
         drawButton.mousePressed(drawRules);
         
 
-        musicButton = createButton("Happy Birthday");
-        // musicButton.position(width/2 - musicButton.width/2, height - 100)
-        musicButton.position(random(width), random(height));
-        musicButton.mousePressed(playHBD)
+        hbdButton = createButton("Happy Birthday");
+        hbdButton.position(random(width), random(height));
+        hbdButton.mousePressed(playHBD)
 
         vegButton = createButton("Vegetables?");
         vegButton. position(random(width), random(height));
@@ -79,12 +84,17 @@
 
         messageButton = createButton("A Message");
         messageButton.position(random(width), random(height));
-        messageButton.mousePressed(() => hbdMessageY = height + 40);
+        messageButton.mousePressed(playMessage); 
+
+        horoscopeButton = createButton("Some Advice");
+        horoscopeButton.position(random(width), random(height));
+        horoscopeButton.mousePressed(playHoroscope);
 
 
 	}
 			
 	function draw(){
+
 		
         if (!drawing) {
             fill(255);
@@ -150,7 +160,7 @@
                 towerY = random(height);
             }
 
-            if (parisY >= 1.5*height) {
+            if (parisY >= 3*height) {
                 parisUp = true;
                 parisX = random(width);
             }
@@ -162,10 +172,27 @@
 
             hbdMessageY -= 1;
 
-            text(horoscope, horoscopeX, height/8)
+            if (horoscopePlaying) {
+                text(horoscope, horoscopeX, height/8)
 
-            horoscopeX -= 2;
-            if (looping) {
+                horoscopeX -= 2;
+
+              
+                fill("#0078e9")
+                textAlign(CENTER)
+                text("DO: veg, green, rain\n\nDON'T: fruit, sleeping in\n(fruit)markets, un-evolved", width/2, 3*height/4)
+                textAlign(LEFT);
+                fill("#FFFFFF")
+
+                if (horoscopeX + textWidth(horoscope) < 0) {
+                    horoscopePlaying = false;
+                }
+                
+            }
+
+
+
+            if (hbd) {
                 for (i = 0; i < 100; i++) {
                     var col = color(random(255), random(255), random(255));
                     fill(col);
@@ -190,13 +217,29 @@
             image(pen, mouseX, mouseY, turnip.width/12, turnip.height/12);
         }
 
-
-
-
+        if (splash) {
+            noStroke()
+            fill("black")
+            rect(0, 0, width, height)
+            fill("white")
+            textSize(20)
+            textFont("Major Mono Display")
+            textAlign(CENTER);
+            text("CLICK HERE TO ENTER", width/2, height/2)
+        }
 
     }
     
-    function drawRules () {
+    function mousePressed() {
+        if (splash) {
+            debussy.loop();
+            splash = false;
+        }
+        
+    }
+
+
+    function drawRules() {
         drawing = !drawing;
         drawBG = true;
         //pen = vegetables ? random(turnip, cilantro, potato) : random(hannah, serena, rik);
@@ -221,6 +264,15 @@
     }
 
     function vegTrigger() {
+
+        if (!vegetables && !hbd) {
+            debussy.stop();
+            bach.loop();
+        } else if (!hbd) {
+            bach.stop();
+            debussy.loop();
+        }
+
         vegetables = !vegetables;
         if (vegetables) {
             vegtopia.play();
@@ -234,27 +286,36 @@
     }
 
     function playHBD() {
-        if (!looping) {
-            hbdSong.loop();
-            looping = true;
+        if (!hbd) {
+            bach.stop();
+            debussy.stop();
+            reich.loop();
+            hbd = true;
         }
 
-        else {
-            hbdSong.stop();
-            looping = false;
+        else if (vegetables){
+            reich.stop();
+            bach.loop();
+            hbd = false;
+        } else {
+            reich.stop();
+            debussy.loop();
+            hbd = false;
         }
 
     }
 
-    // function mousePressed() {
-    //     if (hbdSong.isPlaying()) {
-    //         hbdSong.stop();
-    //     }
+    function playMessage() {
+        hbdMessageY = height + 40;
+        hbdSong.play();
+    }
 
-    //     else {
-    //         hbdSong.play();
-    //     }
-    // }
+    function playHoroscope() {
+        horoscopePlaying = !horoscopePlaying;
+        horoscopeX = width;
+    }
+
+
 </script>
 
 <style>
