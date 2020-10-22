@@ -165,12 +165,13 @@
             text(horoscope, horoscopeX, height/8)
 
             horoscopeX -= 2;
-
-            for (i = 0; i < 100; i++) {
-                var col = color(random(255), random(255), random(255));
-                fill(col);
-                noStroke();
-                ellipse(random(width), random(width), 10, 10);
+            if (looping) {
+                for (i = 0; i < 100; i++) {
+                    var col = color(random(255), random(255), random(255));
+                    fill(col);
+                    noStroke();
+                    ellipse(random(width), random(width), 10, 10);
+                }
             }
 
 
