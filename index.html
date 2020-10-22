@@ -4,11 +4,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital@0;1&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Lekton:wght@700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap" rel="stylesheet">
 
 <script>
@@ -58,6 +55,8 @@
     var parisUp = true;
     var towerX = Math.random()*window.innerWidth;
     var towerY = Math.random()*window.innerHeight;
+
+    var circles = [];
 
     
 
@@ -166,6 +165,13 @@
             text(horoscope, horoscopeX, height/8)
 
             horoscopeX -= 2;
+
+            for (i = 0; i < 100; i++) {
+                var col = color(random(255), random(255), random(255));
+                fill(col);
+                noStroke();
+                ellipse(random(width), random(width), 10, 10);
+            }
 
 
             if (coverCounter < 180) {
